@@ -16,7 +16,7 @@ export type Dict = {
     currency: string
     seeMore: string
   }
-  nav: { home: string; about: string; services: string; contact: string }
+  nav: { home: string; vehicles: string; about: string; services: string; contact: string }
   footer: {
     intro: string
     quickNav: string
@@ -67,6 +67,36 @@ export type Dict = {
     tractor6x4: Vehicle
     tractor4x2: Vehicle
     dump6x4: Vehicle
+  }
+  // 新增「车型展示」栏目（/vehicles）
+  showcase: {
+    sub: string
+    desc: string
+    badge: string
+    meta: { value: string; label: string }[]
+    sectionTitle: string
+    sectionSub: string
+    priceOnRequest: string
+    priceNote: string
+    consult: string
+    onSite: string
+    galleryTitle: string
+    gallerySub: string
+    galleryCaptions: string[]
+    serviceTitle: string
+    serviceSub: string
+    services: [
+      { title: string; desc: string },
+      { title: string; desc: string },
+      { title: string; desc: string },
+      { title: string; desc: string }
+    ]
+    noticeTitle: string
+    noticeDesc: string
+    ctaTitle: string
+    ctaDesc: string
+    ctaBtn: string
+    items: ShowcaseVehicle[]
   }
   about: {
     title: string
@@ -176,6 +206,23 @@ type Vehicle = {
   highlight: string
 }
 
+/** 车型展示栏目条目：id 同时用于匹配页面里的图片资源（src/pages/Vehicles.tsx → showcaseImages） */
+export type ShowcaseVehicle = {
+  /** 唯一标识，需与页面中 showcaseImages 的 key 一致 */
+  id: string
+  name: string
+  brand: string
+  tag: string
+  /** 是否高亮为促销标签（特价 / 活动 / Promotion） */
+  hot?: boolean
+  priceShort: string
+  specs: string[]
+  desc: string
+  highlight: string
+  /** 完整参数表（规格明细区渲染），label 为当前语言 */
+  params: { label: string; value: string }[]
+}
+
 export const translations: Record<Lang, Dict> = {
   zh: {
     common: {
@@ -193,7 +240,7 @@ export const translations: Record<Lang, Dict> = {
       currency: '阿里亚里',
       seeMore: '查看详情 →',
     },
-    nav: { home: '首页', about: '关于我们', services: '产品服务', contact: '联系我们' },
+    nav: { home: '首页', vehicles: '车型展示', about: '关于我们', services: '产品服务', contact: '联系我们' },
     footer: {
       intro: '扎根马达加斯加，专业从事各类车辆销售、仓库与停车场出租、汽车配件供应等业务，致力于为客户提供一站式贸易解决方案，以诚信经营赢得市场信赖。',
       quickNav: '快速导航',
@@ -294,6 +341,99 @@ export const translations: Record<Lang, Dict> = {
         desc: '专为矿山、基建、工程工地设计的徐工 6×4 自卸车，货箱容量大、液压系统稳定，可胜任土石方、砂石、建材等大宗运输。',
         highlight: '限时特价 · 仅此一辆',
       },
+    },
+    showcase: {
+      sub: '现车到店 · 现场实拍',
+      desc: '这里是中盛贸易塔马塔夫展厅的最新到店车型。图片均为园区现场实拍，所见即现车。欢迎电话、微信咨询，或直接到店看车、试车、当面对比挑选。',
+      badge: 'IN STOCK · 现车到店',
+      meta: [
+        { value: 'A4 · A5', label: '两款中巴现车' },
+        { value: '16 / 17', label: '座位数（座）' },
+        { value: 'EURO IV', label: '柴油 · 国四排放' },
+      ],
+      sectionTitle: '最新到店车型',
+      sectionSub: '实车实拍，所见即所得 · 价格以电话咨询或到店面谈为准',
+      priceOnRequest: '价格面议',
+      priceNote: '价格随批次日汇率与配置浮动，请以电话或合同条款为准',
+      consult: '咨询报价 →',
+      onSite: '预约到店看车',
+      galleryTitle: '到店实拍图集',
+      gallerySub: '塔马塔夫展厅与园区现场 · 真实拍摄，未经修饰',
+      galleryCaptions: [
+        '展厅门口实拍 · 双车并排展示',
+        '园区现车队列 · 同款多台到货',
+      ],
+      serviceTitle: '购车服务保障',
+      serviceSub: '从选车到提车，全程本地团队对接',
+      services: [
+        { title: '正规渠道', desc: '正规注册企业，手续齐全，购车流程透明。' },
+        { title: '现车充足', desc: '园区现车可直接查看，看中即可安排交付。' },
+        { title: '中法双语', desc: '中文、法语双语沟通，需求表达零障碍。' },
+        { title: '本地售后', desc: '塔马塔夫本地配件与维修资源支持。' },
+      ],
+      noticeTitle: '图片即现车',
+      noticeDesc: '本页图片均为中盛贸易园区现场实拍，车型与颜色以实际到货为准。如需指定配置、颜色或数量，请提前电话或微信沟通，我们可按需寻车。',
+      ctaTitle: '看中哪一台？立即联系我们',
+      ctaDesc: '电话、微信或直接到店，专业顾问一对一为您介绍现车配置与交付方式',
+      ctaBtn: '查看联系方式',
+      items: [
+        {
+          id: 'joylongA4',
+          name: '九龙 A4 · JOYLONG 中巴客车',
+          brand: 'JOYLONG 九龙汽车 · 现车到店',
+          tag: '16座现车',
+          priceShort: '价格面议',
+          specs: ['16 座 中巴客车', '车长 4,840 mm', '柴油 · 欧IV 国四', 'ABS + EBD 制动'],
+          desc: '九龙（JOYLONG）A4 中巴客车，整车长 4.84 米、16 座客运布局，搭载 DK4B1 柴油发动机（2.5L，欧IV排放），5 速手动变速，前盘后鼓制动并配备 ABS + EBD 与助力转向。适合马达加斯加城际客运、酒店机场接送、工厂员工通勤等场景，出勤率高、维保成本低。',
+          highlight: '展厅现车 · 可安排当天看车',
+          params: [
+            { label: '车辆型号', value: 'HKL6480C' },
+            { label: '发动机型号', value: 'DK4B1' },
+            { label: '燃料类型', value: '柴油' },
+            { label: '排放标准', value: '欧IV（EURO IV）' },
+            { label: '排量（L）', value: '2,498' },
+            { label: '额定功率（kW/r/min）', value: '100 / 3800' },
+            { label: '最大扭矩（N·m/r/min）', value: '260 / 1800–2600' },
+            { label: '长 × 宽 × 高（mm）', value: '4840 × 1880 × 2080' },
+            { label: '轴距（mm）', value: '2570' },
+            { label: '座位数', value: '16' },
+            { label: '油箱容量（L）', value: '70' },
+            { label: '离合器', value: '单片干式，液压操纵；变速箱整体式液压操纵' },
+            { label: '变速器', value: '5 速手动，软轴操纵' },
+            { label: '轮胎', value: '195R15C 子午线轮胎' },
+            { label: '制动系统', value: '前盘式 / 后鼓式，真空助力，ABS + EBD' },
+            { label: '悬架与转向', value: '前双横臂独立悬架 / 后变刚度钢板弹簧，助力转向' },
+          ],
+        },
+        {
+          id: 'joylongA5',
+          name: '九龙 A5 · JOYLONG 加长中巴',
+          brand: 'JOYLONG 九龙汽车 · 批量供应',
+          tag: '17座加长',
+          priceShort: '价格面议',
+          specs: ['17 座 加长版', '车长 5,380 mm', '高顶 2,285 mm', '柴油 · 欧IV 国四'],
+          desc: '九龙（JOYLONG）A5 加长中巴，车长 5.38 米、高顶 2.285 米、17 座布局，载客与行李空间比 A4 更充裕。同样搭载 DK4B1 柴油发动机（2.5L，欧IV排放）、5 速手动变速与 ABS + EBD。园区同款多台现货，适合客运公司与运输车队批量采购，可现场逐台挑选。',
+          highlight: '批量采购 · 可洽谈专属价格',
+          params: [
+            { label: '车辆型号', value: 'HKL6540C' },
+            { label: '发动机型号', value: 'DK4B1' },
+            { label: '燃料类型', value: '柴油' },
+            { label: '排放标准', value: '欧IV（EURO IV）' },
+            { label: '排量（L）', value: '2,498' },
+            { label: '额定功率（kW/r/min）', value: '100 / 3800' },
+            { label: '最大扭矩（N·m/r/min）', value: '260 / 1800–2600' },
+            { label: '长 × 宽 × 高（mm）', value: '5380 × 1880 × 2285' },
+            { label: '轴距（mm）', value: '3110' },
+            { label: '座位数', value: '17' },
+            { label: '油箱容量（L）', value: '70' },
+            { label: '离合器', value: '单片干式，液压操纵；变速箱整体式液压操纵' },
+            { label: '变速器', value: '5 速手动，软轴操纵' },
+            { label: '轮胎', value: '195R15C 子午线轮胎' },
+            { label: '制动系统', value: '前盘式 / 后鼓式，真空助力，ABS + EBD' },
+            { label: '悬架与转向', value: '前双横臂独立悬架 / 后变刚度钢板弹簧，助力转向' },
+          ],
+        },
+      ],
     },
     about: {
       title: '关于我们',
@@ -433,7 +573,7 @@ export const translations: Record<Lang, Dict> = {
       currency: 'Ariary',
       seeMore: 'Découvrir →',
     },
-    nav: { home: 'Accueil', about: 'À propos', services: 'Services', contact: 'Contact' },
+    nav: { home: 'Accueil', vehicles: 'Véhicules', about: 'À propos', services: 'Services', contact: 'Contact' },
     footer: {
       intro: 'Implanté à Madagascar, Zhong Sheng Trade est spécialisé dans la vente de véhicules, la location d\'entrepôts et de parkings ainsi que la vente de pièces détachées automobiles. Nous fournissons des solutions commerciales complètes et fiables.',
       quickNav: 'Navigation',
@@ -534,6 +674,99 @@ export const translations: Record<Lang, Dict> = {
         desc: "Benne XCMG 6×4 spécialement conçue pour la mine, le bâtiment et les chantiers. Grande capacité de charge et système hydraulique fiable.",
         highlight: 'Offre limitée · une seule unité',
       },
+    },
+    showcase: {
+      sub: 'Stock disponible · Photos réelles',
+      desc: "Voici les derniers véhicules arrivés dans notre parc de Toamasina II. Toutes les photos sont prises sur place : ce que vous voyez est disponible. Contactez-nous par téléphone ou WeChat, ou venez directement voir et essayer les véhicules sur place.",
+      badge: 'IN STOCK · DISPONIBLE',
+      meta: [
+        { value: 'A4 · A5', label: 'Deux versions en stock' },
+        { value: '16 / 17', label: 'Nombre de places' },
+        { value: 'EURO IV', label: 'Diesel · Norme EURO IV' },
+      ],
+      sectionTitle: 'Derniers véhicules arrivés',
+      sectionSub: 'Photos réelles, ce que vous voyez est disponible · tarifs par téléphone ou sur place',
+      priceOnRequest: 'Prix sur demande',
+      priceNote: 'Les prix varient selon le lot et le taux de change. Tarif final par téléphone ou selon contrat.',
+      consult: 'Demander un devis →',
+      onSite: 'Réserver une visite',
+      galleryTitle: 'Galerie photos réelles',
+      gallerySub: 'Parc et showroom de Toamasina II · photos authentiques, non retouchées',
+      galleryCaptions: [
+        "Devant le showroom · deux unités côte à côte",
+        'File de véhicules dans le parc · plusieurs unités identiques',
+      ],
+      serviceTitle: 'Nos garanties',
+      serviceSub: "De la sélection à la livraison, une équipe locale vous accompagne",
+      services: [
+        { title: 'Canal officiel', desc: 'Entreprise enregistrée, documents complets et démarches transparentes.' },
+        { title: 'Stock réel', desc: 'Véhicules visibles dans notre parc, livraison rapide après choix.' },
+        { title: 'Bilingue', desc: 'Service en Chinois et en Français, sans barrière de communication.' },
+        { title: 'SAV local', desc: 'Pièces détachées et entretien assurés à Toamasina.' },
+      ],
+      noticeTitle: 'Les photos = le stock',
+      noticeDesc: "Les photos de cette page proviennent de notre parc à Toamasina II. Modèles et coloris disponibles selon les arrivages. Pour une configuration, une couleur ou une quantité précise, contactez-nous : nous recherchons le véhicule pour vous.",
+      ctaTitle: 'Un véhicule vous intéresse ? Contactez-nous',
+      ctaDesc: 'Par téléphone, WeChat ou sur place : un conseiller vous présente les équipements et les modalités de livraison',
+      ctaBtn: 'Voir les coordonnées',
+      items: [
+        {
+          id: 'joylongA4',
+          name: 'JOYLONG A4 · Minibus 16 places',
+          brand: 'JOYLONG · en stock chez Zhong Sheng',
+          tag: '16 places',
+          priceShort: 'Prix sur demande',
+          specs: ['Minibus 16 places', 'Longueur 4 840 mm', 'Diesel · EURO IV', 'Freinage ABS + EBD'],
+          desc: "Le minibus JOYLONG A4 mesure 4,84 m et offre 16 places. Il est équipé du moteur diesel DK4B1 (2,5 L, norme EURO IV), d'une boîte manuelle 5 vitesses, de freins à disques à l'avant et tambours à l'arrière avec ABS + EBD et direction assistée. Idéal pour le transport interurbain, les transferts hôteliers et aéroportuaires ainsi que le transport du personnel.",
+          highlight: 'En stock au showroom · visite possible le jour même',
+          params: [
+            { label: 'Modèle de véhicule', value: 'HKL6480C' },
+            { label: 'Modèle de moteur', value: 'DK4B1' },
+            { label: 'Type de carburant', value: 'Diesel' },
+            { label: "Norme d'émission", value: 'EURO IV' },
+            { label: 'Cylindrée (L)', value: '2,498' },
+            { label: 'Puissance nominale (kW/tr/min)', value: '100 / 3800' },
+            { label: 'Couple maximal (N·m/tr/min)', value: '260 / 1800–2600' },
+            { label: 'Longueur × Largeur × Hauteur (mm)', value: '4840 × 1880 × 2080' },
+            { label: 'Empattement (mm)', value: '2570' },
+            { label: 'Nombre de places', value: '16' },
+            { label: 'Capacité du réservoir (L)', value: '70' },
+            { label: 'Embrayage', value: 'Monodisque à commande hydraulique ; boîte de vitesses monobloc à commande hydraulique' },
+            { label: 'Transmission', value: 'Manuelle 5 vitesses, commande par arbre flexible' },
+            { label: 'Pneus', value: 'Radiaux 195R15C' },
+            { label: 'Système de freinage', value: "Disques à l'avant / tambours à l'arrière, assistance au freinage par dépression, ABS + EBD" },
+            { label: 'Suspension et direction', value: 'Suspension avant indépendante à double triangulation / arrière à ressorts à lames à raideur variable ; direction assistée' },
+          ],
+        },
+        {
+          id: 'joylongA5',
+          name: 'JOYLONG A5 · Minibus rallongé',
+          brand: 'JOYLONG · lot disponible chez Zhong Sheng',
+          tag: '17 places',
+          priceShort: 'Prix sur demande',
+          specs: ['Version rallongée 17 places', 'Longueur 5 380 mm', 'Hauteur 2 285 mm', 'Diesel · EURO IV'],
+          desc: "Le JOYLONG A5 rallongé mesure 5,38 m de long et 2,285 m de haut, avec 17 places et un espace bagages supérieur à l'A4. Même motorisation diesel DK4B1 (2,5 L, EURO IV), boîte manuelle 5 vitesses et ABS + EBD. Plusieurs unités identiques en stock dans notre parc : solution idéale pour les sociétés de transport et les flottes, avec choix unité par unité sur place.",
+          highlight: 'Achat en lot · tarif dégressif possible',
+          params: [
+            { label: 'Modèle de véhicule', value: 'HKL6540C' },
+            { label: 'Modèle de moteur', value: 'DK4B1' },
+            { label: 'Type de carburant', value: 'Diesel' },
+            { label: "Norme d'émission", value: 'EURO IV' },
+            { label: 'Cylindrée (L)', value: '2,498' },
+            { label: 'Puissance nominale (kW/tr/min)', value: '100 / 3800' },
+            { label: 'Couple maximal (N·m/tr/min)', value: '260 / 1800–2600' },
+            { label: 'Longueur × Largeur × Hauteur (mm)', value: '5380 × 1880 × 2285' },
+            { label: 'Empattement (mm)', value: '3110' },
+            { label: 'Nombre de places', value: '17' },
+            { label: 'Capacité du réservoir (L)', value: '70' },
+            { label: 'Embrayage', value: 'Monodisque à commande hydraulique ; boîte de vitesses monobloc à commande hydraulique' },
+            { label: 'Transmission', value: 'Manuelle 5 vitesses, commande par arbre flexible' },
+            { label: 'Pneus', value: 'Radiaux 195R15C' },
+            { label: 'Système de freinage', value: "Disques à l'avant / tambours à l'arrière, assistance au freinage par dépression, ABS + EBD" },
+            { label: 'Suspension et direction', value: 'Suspension avant indépendante à double triangulation / arrière à ressorts à lames à raideur variable ; direction assistée' },
+          ],
+        },
+      ],
     },
     about: {
       title: 'À propos de nous',

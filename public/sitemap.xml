@@ -16,6 +16,14 @@
   </url>
 
   <url>
+    <loc>https://zhongsheng-mg.com/#/vehicles</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://zhongsheng-mg.com/#/vehicles?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="fr-MG" href="https://zhongsheng-mg.com/#/vehicles?lang=fr"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <url>
     <loc>https://zhongsheng-mg.com/#/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

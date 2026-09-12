@@ -24,6 +24,7 @@ export default function Navbar() {
 
   const navLinks = [
     { label: t.nav.home, path: '/' },
+    { label: t.nav.vehicles, path: '/vehicles' },
     { label: t.nav.about, path: '/about' },
     { label: t.nav.services, path: '/services' },
     { label: t.nav.contact, path: '/contact' },
@@ -77,7 +78,7 @@ export default function Navbar() {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`nav-item mx-3 px-1 text-[15px] font-semibold tracking-wide ${
+                className={`nav-item mx-1.5 xl:mx-3 px-1 text-[15px] font-semibold tracking-wide ${
                   isActive(link.path)
                     ? 'is-active text-[color:var(--color-ink-900)]'
                     : `${scrolled ? 'text-white/75 hover:text-white' : 'text-[color:var(--color-ink-600)] hover:text-[color:var(--color-ink-900)]'}`

@@ -71,9 +71,10 @@ export default function Footer() {
             <ul className="space-y-3">
               {[
                 { to: '/', label: t.nav.home, id: '01' },
-                { to: '/about', label: t.nav.about, id: '02' },
-                { to: '/services', label: t.nav.services, id: '03' },
-                { to: '/contact', label: t.nav.contact, id: '04' },
+                { to: '/vehicles', label: t.nav.vehicles, id: '02' },
+                { to: '/about', label: t.nav.about, id: '03' },
+                { to: '/services', label: t.nav.services, id: '04' },
+                { to: '/contact', label: t.nav.contact, id: '05' },
               ].map((it) => (
                 <li key={it.to}>
                   <Link

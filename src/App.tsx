@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
+import Vehicles from './pages/Vehicles'
 import About from './pages/About'
 import Services from './pages/Services'
 import Contact from './pages/Contact'
@@ -58,6 +59,7 @@ export default function App() {
       <main id="main" className="flex-1 pt-20 overflow-x-hidden">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/vehicles" element={<Vehicles />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
           <Route path="/contact" element={<Contact />} />

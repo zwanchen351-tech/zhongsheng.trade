@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# 构建缓存与本地截图（勿提交）
+tsconfig.tsbuildinfo
+.shots/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
